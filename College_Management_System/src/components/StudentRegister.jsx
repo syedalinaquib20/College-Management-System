@@ -1,6 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 const StudentRegister = () => {
@@ -10,16 +9,22 @@ const StudentRegister = () => {
         student_password: '' 
      })
 
+     const navigate = useNavigate();
+
      useEffect(() => {
         console.log('Form values changed', values)
      }, [values]);
  
      const handleSubmit = (event) => {
-         event.preventDefault()
-         axios.post('http://localhost:3000/')
-         .then(result => console.log(result))
-         .catch(err => console.log(err))
-     }
+        event.preventDefault();
+        axios.post('http://localhost:3000/student-register', values)
+            .then(result => {
+                console.log(result);
+                // Redirect to the student login page after successful registration
+                navigate('/student-login');
+            })
+            .catch(err => console.log(err));
+    };
 
   return (
     <div className="min-h-screen w-full bg-gray-200 flex flex-col items-center justify-center">
@@ -54,14 +59,7 @@ const StudentRegister = () => {
                     <button className="bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         SIGN UP
                     </button>
-                </div>
-                <div className="flex items-center justify-center mt-4 ">
-                <span>Don't have an account yet?</span>
-                <Link to="/student-login" className="text-blue-500 hover:underline ml-1">
-                    Login here
-                </Link>
-            </div>
-                
+                </div>               
             </form>   
         </div>
     </div>

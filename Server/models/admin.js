@@ -1,7 +1,6 @@
 import { pool } from "../database/index.js";
 
 // create admin table
-// admin_id, admin_username, admin_password, admin_email, create_at, updated_at
 
 const query = `
 CREATE TABLE IF NOT EXISTS admin (

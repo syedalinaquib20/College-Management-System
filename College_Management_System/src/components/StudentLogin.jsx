@@ -1,6 +1,5 @@
-
 import {useState} from 'react';
-import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const StudentLogin = () => {
@@ -8,12 +7,25 @@ const StudentLogin = () => {
         student_email: '', 
         student_password: '' 
      })
+
+     const navigate = useNavigate();
  
      const handleSubmit = (event) => {
          event.preventDefault()
-         axios.post('http://localhost:3000/')
-         .then(result => console.log(result))
-         .catch(err => console.log(err))
+         axios.post('http://localhost:3000/student-login', values)
+         .then(result => {
+            console.log(result.data)
+            if (result.data.loginStatus) {
+                localStorage.setItem("Valid", true)
+                navigate('/auth/dashboard-student')
+            } else {
+                console.log("Login failed")
+            }
+         })
+         .catch(err => {
+            console.log(err)
+            console.log("An error occured while logging in")
+         })
      }
 
   return (
@@ -47,12 +59,6 @@ const StudentLogin = () => {
                 <button className="bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     SIGN IN
                 </button>
-            </div>
-            <div className="flex items-center justify-center mt-4 ">
-                <span>Don't have an account yet?</span>
-                <Link to="/student-register" className="text-blue-500 hover:underline ml-1">
-                    Register
-                </Link>
             </div>
         </form>
       </div>

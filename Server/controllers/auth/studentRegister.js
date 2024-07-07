@@ -2,30 +2,30 @@ import bcrypt from "bcrypt";
 import { pool } from "../../database/index.js";
 import { validateEmail } from "../../utils/helper.js";
 
-const insertNewAdmin = `
-INSERT INTO admin (admin_name, admin_email, admin_password)
+const insertNewStudent = `
+INSERT INTO student (student_name, student_email, student_password)
 VALUES ($1, $2, $3)
 `;
 
 const checkEmailQuery = `
-SELECT * FROM admin 
-WHERE admin_email = $1
+SELECT * FROM student 
+WHERE student_email = $1
 `;
 
 const adminRegister = async (req, res) => {
     try {
-        const admin_name = req.body.admin_name;
-        const admin_email = req.body.admin_email;
-        const admin_password = req.body.admin_password;
+        const student_name = req.body.student_name;
+        const student_email = req.body.student_email;
+        const student_password = req.body.student_password;
 
         // validate the request body is not empty
-        if (!admin_name || !admin_email || !admin_password) {
+        if (!student_name || !student_email || !student_password) {
             return res.status(400).json({
                 message: "Name, Email and Password are required",
             });
         }
 
-        const isValidEmail = validateEmail(admin_email);
+        const isValidEmail = validateEmail(student_email);
         if (!isValidEmail) {
             return res.status(400).json({
                 message: "Invalid email", 
@@ -33,7 +33,7 @@ const adminRegister = async (req, res) => {
         }
 
         // check if email already exists 
-        const dbResEmail = await pool.query(checkEmailQuery, [admin_email]);
+        const dbResEmail = await pool.query(checkEmailQuery, [student_email]);
         if(dbResEmail.rows.length > 0){
             return res.status(400).json({
                 message: "Email already exists"
@@ -41,10 +41,10 @@ const adminRegister = async (req, res) => {
         }
 
         const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = bcrypt.hashSync(admin_password, salt);
+        const hashedPassword = bcrypt.hashSync(student_password, salt);
 
-        // Insert new admin into the database
-        await pool.query(insertNewAdmin, [admin_name, admin_email, hashedPassword]);
+        // Insert new student into the database
+        await pool.query(insertNewStudent, [student_name, student_email, hashedPassword]);
 
         // Send success response
         res.status(200).json({

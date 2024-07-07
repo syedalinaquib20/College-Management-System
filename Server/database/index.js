@@ -2,6 +2,7 @@ import pkg from "pg";
 // import dotenv from "dotenv" to use .env file
 import "dotenv/config";
 import createAdminTable from "../models/admin.js";
+import createStudentTable from "../models/student.js";
 
 const { Pool } = pkg;
 
@@ -25,6 +26,9 @@ export async function databaseInit() {
 
         // create admin table
         await createAdminTable();
+
+        // create student table 
+        await createStudentTable();
 
     } catch (error) {
         console.error(error); 
