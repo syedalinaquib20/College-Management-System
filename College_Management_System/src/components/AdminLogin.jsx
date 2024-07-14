@@ -17,6 +17,7 @@ const AdminLogin = () => {
                 console.log(result.data);  // Log the response
                 if (result.data.loginStatus) {
                     localStorage.setItem("Valid", true);
+                    localStorage.setItem("AdminName", result.data.admin_name);
                     navigate('/auth/dashboard');
                 } else {
                     console.log("Login failed");  // Log if login fails
@@ -29,7 +30,7 @@ const AdminLogin = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-gray-200 flex flex-col items-center justify-center">
+        <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center">
             <div className="flex flex-col w-6/12 bg-cover bg-white rounded-lg shadow-lg p-8">
                 <h1 className="text-2xl mt-3 text-center">ADMIN LOGIN PAGE</h1>
                 <form onSubmit={handleSubmit}>

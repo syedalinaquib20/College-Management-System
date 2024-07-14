@@ -59,7 +59,8 @@ const adminLogin = async (req, res) => {
         res.status(200).json({
             message: "Token created", 
             token: token,
-            loginStatus: true
+            loginStatus: true,
+            admin_name: user.admin_name
         });
         
     } catch (error) {
