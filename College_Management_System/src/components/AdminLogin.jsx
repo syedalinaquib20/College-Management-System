@@ -18,7 +18,8 @@ const AdminLogin = () => {
                 if (result.data.loginStatus) {
                     localStorage.setItem("Valid", true);
                     localStorage.setItem("AdminName", result.data.admin_name);
-                    navigate('/auth/dashboard');
+                    localStorage.setItem("token", result.data.token);
+                    navigate('/auth/admin/dashboard');
                 } else {
                     console.log("Login failed");  // Log if login fails
                 }

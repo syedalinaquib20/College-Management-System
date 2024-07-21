@@ -25,6 +25,10 @@ const Dashboard = () => {
     navigate("/admin-login");
   }
 
+  const navigateAddEvents = () => {
+    navigate("/auth/admin/admin-add-events");
+  }
+
   const data = {
     labels: ['Event 1', 'Event 2', 'Event 3', 'Event 4', 'Event 5'], 
     datasets: [
@@ -75,7 +79,7 @@ const Dashboard = () => {
       <div className="flex justify-center w-full mt-6 p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full lg:w-3/4">
           <div className="bg-blue-600 p-4 text-center border rounded-lg hover:bg-blue-800">
-            <button className="text-white px-2 py-1 flex items-center justify-center space-x-2 w-full rounded-lg bg-transparent">
+            <button onClick = {navigateAddEvents} className="text-white px-2 py-1 flex items-center justify-center space-x-2 w-full rounded-lg bg-transparent">
               <FaCalendarPlus className="h-5 w-5" />
               <span>Add Events</span>
             </button>

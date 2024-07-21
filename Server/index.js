@@ -16,9 +16,11 @@ app.use(express.static("public"));
 // database connection and execute DDL queries to create tables
 databaseInit();
 
+// Mount the public router
 app.use("/", publicRouter);
-app.use("/auth", privateRouter);
 
+// Mount the private router
+app.use("/auth", privateRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

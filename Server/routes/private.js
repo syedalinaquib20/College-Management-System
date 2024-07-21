@@ -1,29 +1,27 @@
 import { Router } from "express";
 import isAuthAdmin from "../middlewares/isAuthAdmin.js";
 import isAuthStudent from "../middlewares/isAuthStudent.js";
+import adminAddEvents from "../controllers/auth/adminAddEvents.js";
 
 const privateRouter = Router();
 
-privateRouter.use(isAuthAdmin);
-privateRouter.use(isAuthStudent);
+// Middleware for routes that require admin authentication
+privateRouter.use("/admin", isAuthAdmin);
 
-privateRouter.get("/helloworld", (req, res) => {
-    res.send("<h1>Hello world!</h1>");
-})
+// Middleware for routes that require student authentication
+privateRouter.use("/student", isAuthStudent);
 
-privateRouter.get("/helloworld-json", (req, res) => {
-    res.json({
-        message: "Hello world!"
-    });
-});
-
-privateRouter.get("/dashboard", (req, res) => {
+// Admin routes
+privateRouter.get("/admin/dashboard", (req, res) => {
     res.json({
         message: "Welcome to admin dashboard"
     });
 });
 
-privateRouter.get("/dashboard-student", (req, res) => {
+privateRouter.post("/admin/admin-add-events", adminAddEvents);
+
+// Student routes
+privateRouter.get("/student/dashboard-student", (req, res) => {
     res.json({
         message: "Welcome to student dashboard"
     });
