@@ -9,6 +9,7 @@ import './index.css';
 import PrivateRoute from './components/PrivateRoute';
 import PrivateRouteStudent from './components/PrivateRouteStudent';
 import AddEvents from './components/AddEvents';
+import ListEvents from './components/ListEvents';
 
 const App = () => {
   console.log('App component rendered');
@@ -22,7 +23,8 @@ const App = () => {
 
         <Route element={<PrivateRoute />}>
           <Route path="/auth/admin/dashboard" element={<Dashboard />} /> 
-          <Route path="/auth/admin/admin-add-events" element={<AddEvents />} />  
+          <Route path="/auth/admin/admin-add-events" element={<AddEvents />} /> 
+          <Route path="/auth/admin/admin-list-events" element={<ListEvents />} />   
         </Route>
 
         <Route element={<PrivateRouteStudent />}>

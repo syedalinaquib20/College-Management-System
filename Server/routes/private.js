@@ -2,6 +2,7 @@ import { Router } from "express";
 import isAuthAdmin from "../middlewares/isAuthAdmin.js";
 import isAuthStudent from "../middlewares/isAuthStudent.js";
 import adminAddEvents from "../controllers/auth/adminAddEvents.js";
+import listEvents from "../controllers/auth/listEvents.js";
 
 const privateRouter = Router();
 
@@ -19,6 +20,8 @@ privateRouter.get("/admin/dashboard", (req, res) => {
 });
 
 privateRouter.post("/admin/admin-add-events", adminAddEvents);
+
+privateRouter.get("/admin/admin-list-events", listEvents);
 
 // Student routes
 privateRouter.get("/student/dashboard-student", (req, res) => {
