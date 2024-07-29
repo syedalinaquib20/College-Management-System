@@ -7,6 +7,7 @@ const ListEvents = () => {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [success, setSuccessMessage] = useState('');
     const [error, setError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -21,15 +22,16 @@ const ListEvents = () => {
             }
         })
         .then(response => {
-            console.log(response.data); // Log the response data
-            setEvents(response.data.events);
-            setFilteredEvents(response.data.events); // Initialize filtered events with all events
+            console.log(response.data);
+            const sortedEvents = response.data.events.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+            setEvents(sortedEvents);
+            setFilteredEvents(sortedEvents);
         })
         .catch(error => {
             console.error(error);
             setError('Failed to fetch the events');
         });
-    }, []);
+    }); 
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -47,6 +49,44 @@ const ListEvents = () => {
 
     const back = () => {
         navigate("/auth/admin/dashboard");
+    }
+
+    const handleUpdate = (id) => {
+        navigate(`/auth/admin/admin-update-event/${id}`);
+    }
+
+    const handleDelete = (eventId) => {
+        const token = localStorage.getItem("token");
+        axios.delete(`http://localhost:3000/auth/admin/admin-delete-event/${eventId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response);
+            if (response.data && response.data.message) {
+                setSuccessMessage(response.data.message);
+            } else {
+                setSuccessMessage("Event deleted successfully!");
+            }
+
+            setError('')
+            setTimeout(() => {
+                navigate('/auth/admin/dashboard');
+            }, 2000)
+        })
+        .catch(error => {
+            console.error(error);
+            setSuccessMessage('');
+            if (error.response && error.response.data.message) {
+                setError(error.response.data.message);
+            } else {
+                setError('An unexpected error occurred');
+            }
+            setTimeout(() => {
+                navigate('/auth/admin/dashboard');
+            }, 2000)
+        })
     }
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -67,8 +107,14 @@ const ListEvents = () => {
                 </div>
             </header>
             <div className="flex justify-center items-center flex-grow mt-4">
-                <div className="flex flex-col md:w-8/12 lg:w-6/12 bg-cover bg-white rounded-lg shadow-lg p-8">
+                <div className="flex flex-col w-full md:w-11/12 lg:w-9/12 bg-cover bg-white rounded-lg shadow-lg p-8">
                     <h1 className="text-2xl text-center text-black mb-4">List of Events</h1>
+                    {success && (
+                            <div className="bg-green-500 text-white p-4 rounded my-4">
+                                {success}
+                            </div>
+                    )}
+
                     {error && (
                         <div className="bg-red-500 text-white p-4 rounded mb-4">
                             {error}
@@ -88,6 +134,7 @@ const ListEvents = () => {
                                 <th className="w-1/4 px-4 py-2">Date</th>
                                 <th className="w-1/4 px-4 py-2">Place</th>
                                 <th className="w-1/4 px-4 py-2">Participants</th>
+                                <th className="w-1/4 px-4 py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,6 +144,23 @@ const ListEvents = () => {
                                     <td className="border px-4 py-2 text-left">{formatDate(event.event_date)}</td>
                                     <td className="border px-4 py-2 text-left">{event.event_place}</td>
                                     <td className="border px-4 py-2 text-left">{event.participants}</td>
+                                    <td className="border px-4 py-2 text-left">
+                                        <div className="flex space-x-2">
+                                            <button 
+                                                onClick={() => handleUpdate(event.event_id)}
+                                                className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
+                                            >
+                                                Update
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(event.event_id)}
+                                                className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                        
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
