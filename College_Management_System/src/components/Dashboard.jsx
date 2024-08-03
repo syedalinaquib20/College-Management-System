@@ -33,6 +33,10 @@ const Dashboard = () => {
     navigate("/auth/admin/admin-list-events")
   }
 
+  const navigateListStudents = () => {
+    navigate("/auth/admin/admin-list-students")
+  }
+
   const data = {
     labels: ['Event 1', 'Event 2', 'Event 3', 'Event 4', 'Event 5'], 
     datasets: [
@@ -95,7 +99,7 @@ const Dashboard = () => {
             </button>
           </div>
           <div className="bg-blue-600 p-4 text-center border rounded-lg hover:bg-blue-800">
-            <button className="text-white px-2 py-1 flex items-center justify-center space-x-2 w-full rounded-lg bg-transparent">
+            <button onClick={navigateListStudents} className="text-white px-2 py-1 flex items-center justify-center space-x-2 w-full rounded-lg bg-transparent">
               <IoAccessibilityOutline className="h-5 w-5" />
               <span>List of Registered Students</span>
             </button>

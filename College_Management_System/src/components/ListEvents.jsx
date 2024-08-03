@@ -158,8 +158,7 @@ const ListEvents = () => {
                                             >
                                                 Delete
                                             </button>
-                                        </div>
-                                        
+                                        </div>    
                                     </td>
                                 </tr>
                             ))}

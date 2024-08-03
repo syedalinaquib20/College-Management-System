@@ -4,6 +4,7 @@ import "dotenv/config";
 import createAdminTable from "../models/admin.js";
 import createStudentTable from "../models/student.js";
 import createEventTable from "../models/event.js";
+import createStudentEventTable from "../models/student_event.js";
 
 const { Pool } = pkg;
 
@@ -33,6 +34,9 @@ export async function databaseInit() {
 
         // create event table
         await createEventTable();
+
+        // create student_event table
+        await createStudentEventTable();
 
     } catch (error) {
         console.error(error); 

@@ -6,6 +6,9 @@ import listEvents from "../controllers/auth/listEvents.js";
 import deleteEvent from "../controllers/auth/deleteEvent.js";
 import updateEvent from "../controllers/auth/updateEvent.js";
 import getEventById from "../controllers/auth/getEventById.js";
+import getStudentById from "../controllers/auth/getStudentById.js";
+import listStudentsEvents from "../controllers/auth/listStudentsEvents.js";
+import deleteStudentEvent from "../controllers/auth/deleteStudentEvent.js";
 
 const privateRouter = Router();
 
@@ -26,11 +29,17 @@ privateRouter.post("/admin/admin-add-events", adminAddEvents);
 
 privateRouter.get("/admin/admin-list-events", listEvents);
 
+privateRouter.get("/admin/list-students-with-events", listStudentsEvents);
+
 privateRouter.delete("/admin/admin-delete-event/:id", deleteEvent);
+
+privateRouter.delete("/admin/admin-delete-student/:id", deleteStudentEvent);
 
 privateRouter.put("/admin/admin-update-event/:id", updateEvent);
 
 privateRouter.get("/admin/event/:id", getEventById);
+
+privateRouter.get("/admin/student/:id", getStudentById);
 
 // Student routes
 privateRouter.get("/student/dashboard-student", (req, res) => {
