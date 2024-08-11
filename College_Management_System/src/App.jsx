@@ -13,6 +13,7 @@ import ListEvents from './components/ListEvents';
 import UpdateEvent from './components/UpdateEvent';
 import ListStudentsEvents from './components/ListStudentsEvents';
 import UpdateStudentEvent from './components/UpdateStudentEvent';
+import HomePage from './components/HomePage';
 
 const App = () => {
   console.log('App component rendered');
@@ -37,7 +38,7 @@ const App = () => {
           <Route path="/auth/student/dashboard-student" element={<DashboardStudent />} />  
         </Route>
       
-        <Route path="/" element={<div>Home Page</div>} /> 
+        <Route path="/" element={<HomePage />} /> 
       </Routes>
     </Router>
   );

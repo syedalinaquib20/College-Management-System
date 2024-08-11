@@ -3,8 +3,8 @@ import { pool } from "../../database/index.js";
 import { validateEmail } from "../../utils/helper.js";
 
 const insertNewStudent = `
-INSERT INTO student (student_name, student_email, student_password)
-VALUES ($1, $2, $3)
+INSERT INTO student (student_name, student_email, student_gender, student_password)
+VALUES ($1, $2, $3, $4)
 `;
 
 const checkEmailQuery = `
@@ -12,16 +12,17 @@ SELECT * FROM student
 WHERE student_email = $1
 `;
 
-const adminRegister = async (req, res) => {
+const studentRegister = async (req, res) => {
     try {
         const student_name = req.body.student_name;
         const student_email = req.body.student_email;
+        const student_gender = req.body.student_gender;
         const student_password = req.body.student_password;
 
         // validate the request body is not empty
-        if (!student_name || !student_email || !student_password) {
+        if (!student_name || !student_email || !student_gender || !student_password) {
             return res.status(400).json({
-                message: "Name, Email and Password are required",
+                message: "Name, Email, Gender and Password are required",
             });
         }
 
@@ -44,7 +45,7 @@ const adminRegister = async (req, res) => {
         const hashedPassword = bcrypt.hashSync(student_password, salt);
 
         // Insert new student into the database
-        await pool.query(insertNewStudent, [student_name, student_email, hashedPassword]);
+        await pool.query(insertNewStudent, [student_name, student_email, student_gender, hashedPassword]);
 
         // Send success response
         res.status(200).json({
@@ -58,4 +59,4 @@ const adminRegister = async (req, res) => {
     }
 };
 
-export default adminRegister;
+export default studentRegister;

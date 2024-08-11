@@ -28,8 +28,12 @@ const StudentLogin = () => {
          })
      }
 
+     const handleBackToRegister = () => {
+        navigate('/student-register');
+    };
+
   return (
-    <div className="min-h-screen w-full bg-gray-200 flex flex-col items-center justify-center">
+    <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center">
       <div className="flex flex-col w-6/12 bg-cover bg-white rounded-lg shadow-lg p-8">
         <h1 className="text-2xl mt-3 text-center">STUDENT LOGIN PAGE</h1>
         <form onSubmit={handleSubmit}>
@@ -38,7 +42,7 @@ const StudentLogin = () => {
                     Email: 
                 </label>
                 <input onChange={(e) => setValues({...
-                values, student_email : e.target.value})} className="shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                values, student_email : e.target.value})} className="bg-gray-200 shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-black focus:outline-none focus:shadow-outline"
                     id="student_email"
                     type="text"
                     placeholder="Email"
@@ -49,17 +53,26 @@ const StudentLogin = () => {
                     Password: 
                 </label>
                 <input onChange={(e) => setValues({...
-                values, student_password : e.target.value})} className="shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                values, student_password : e.target.value})} className="bg-gray-200 shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-black focus:outline-none focus:shadow-outline"
                     id="student_password"
                     type="password"
                     placeholder="Password"
                 />
             </div>
             <div className="flex items-center justify-center mt-4" >
-                <button className="bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <button className="bg-gray-900 shadow appearance-none border rounded w-1/3 mt-2 py-2 px-3 text-white focus:outline-none focus:shadow-outline">
                     SIGN IN
                 </button>
             </div>
+            <div className="flex items-center justify-center mt-10">
+                        <button 
+                            type="button" 
+                            onClick={handleBackToRegister} 
+                            className="text-black py-2 px-4 border-none focus:outline-none focus:shadow-outline"
+                        >
+                            Not have an account? <span className='underline'>Sign up</span>
+                        </button>
+                    </div>      
         </form>
       </div>
     </div>
