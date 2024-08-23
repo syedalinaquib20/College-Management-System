@@ -3,11 +3,10 @@ import axios from 'axios';
 import { IoArrowBackSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 
-const ListEvents = () => {
+const ListAvailableEvents = () => {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [success, setSuccessMessage] = useState('');
     const [error, setError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -16,7 +15,7 @@ const ListEvents = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        axios.get('http://localhost:3000/auth/admin/admin-list-events', {
+        axios.get('http://localhost:3000/auth/student/student-list-available-events', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -31,7 +30,7 @@ const ListEvents = () => {
             console.error(error);
             setError('Failed to fetch the events');
         });
-    }); 
+    }, []); 
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -48,45 +47,11 @@ const ListEvents = () => {
     };
 
     const back = () => {
-        navigate("/auth/admin/dashboard");
+        navigate("/auth/student/dashboard-student");
     }
 
-    const handleUpdate = (id) => {
-        navigate(`/auth/admin/admin-update-event/${id}`);
-    }
-
-    const handleDelete = (eventId) => {
-        const token = localStorage.getItem("token");
-        axios.delete(`http://localhost:3000/auth/admin/admin-delete-event/${eventId}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            console.log(response);
-            if (response.data && response.data.message) {
-                setSuccessMessage(response.data.message);
-            } else {
-                setSuccessMessage("Event deleted successfully!");
-            }
-
-            setError('')
-            setTimeout(() => {
-                navigate('/auth/admin/dashboard');
-            }, 2000)
-        })
-        .catch(error => {
-            console.error(error);
-            setSuccessMessage('');
-            if (error.response && error.response.data.message) {
-                setError(error.response.data.message);
-            } else {
-                setError('An unexpected error occurred');
-            }
-            setTimeout(() => {
-                navigate('/auth/admin/dashboard');
-            }, 2000)
-        })
+    const handleEventDetails = (id) => {
+        navigate(`/auth/student/student-event-details/${id}`);
     }
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -109,12 +74,6 @@ const ListEvents = () => {
             <div className="flex justify-center items-center flex-grow mt-4">
                 <div className="flex flex-col w-full md:w-11/12 lg:w-9/12 bg-cover bg-white rounded-lg shadow-lg p-8">
                     <h1 className="text-2xl text-center text-black mb-4">List of Events</h1>
-                    {success && (
-                            <div className="bg-green-500 text-white p-4 rounded my-4">
-                                {success}
-                            </div>
-                    )}
-
                     {error && (
                         <div className="bg-red-500 text-white p-4 rounded mb-4">
                             {error}
@@ -156,16 +115,10 @@ const ListEvents = () => {
                                         <td className="border px-4 py-2 text-left">
                                             <div className="flex space-x-2">
                                                 <button 
-                                                    onClick={() => handleUpdate(event.event_id)}
+                                                    onClick={() => handleEventDetails(event.event_id)}
                                                     className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
                                                 >
-                                                    Update
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(event.event_id)}
-                                                    className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
-                                                >
-                                                    Delete
+                                                    Details
                                                 </button>
                                             </div>    
                                         </td>
@@ -197,4 +150,4 @@ const ListEvents = () => {
     );
 }
 
-export default ListEvents;
+export default ListAvailableEvents;

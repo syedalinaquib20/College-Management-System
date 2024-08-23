@@ -57,9 +57,10 @@ const studentLogin = async (req, res) => {
         const token = jwt.sign(data, secretKey);
 
         res.status(200).json({
-            message: "Token created", 
+            message: "You are successfully login!", 
             token: token,
-            loginStatus: true
+            loginStatus: true,
+            student_name: user.student_name
         });
 
     } catch (error) {

@@ -8,15 +8,33 @@ const AddEvents = () => {
         event_name: '', 
         event_date: '', 
         event_place: '', 
-        participants: ''
+        event_type: '', // Initialize with an empty string
+        max_participants: ''
     });
 
     const [file, setFile] = useState(null);
-
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [points, setPoints] = useState(0);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        switch (values.event_type.toLowerCase()) {
+            case 'jpk': 
+            case 'mpp': 
+                setPoints(3);
+                break;
+            case 'faculty': 
+                setPoints(2);
+                break;
+            case 'club': 
+                setPoints(1);
+                break;
+            default: 
+                setPoints(0);
+        }
+    }, [values.event_type])
 
     const back = () => {
         navigate("/auth/admin/dashboard");
@@ -32,7 +50,8 @@ const AddEvents = () => {
         formData.append('event_name', values.event_name);
         formData.append('event_date', values.event_date);
         formData.append('event_place', values.event_place);
-        formData.append('participants', values.participants);
+        formData.append('event_type', values.event_type);
+        formData.append('max_participants', values.max_participants);
         if (file) {
             formData.append('event_picture', file);
         }
@@ -68,7 +87,7 @@ const AddEvents = () => {
             }
             setTimeout(() => {
                 navigate('/auth/admin/dashboard');
-            }, 2000)
+            }, 20000)
         })
     }
 
@@ -83,17 +102,17 @@ const AddEvents = () => {
                 </div>
             </header>
             <div className="flex justify-center items-center flex-grow mt-4">
-                <div className="flex flex-col md:w-6/12 bg-cover bg-white rounded-lg shadow-lg p-8">
+                <div className="flex flex-col md:w-6/12 bg-cover bg-white rounded-lg shadow-lg py-3">
                     <form onSubmit={handleSubmit}>
                         <h1 className="text-2xl mt-3 text-center text-black">ADD EVENTS</h1>
                         {successMessage && (
-                            <div className="bg-green-500 text-white p-4 rounded my-4">
+                            <div className="bg-green-500 text-white p-4 rounded my-4 mx-auto text-center w-fit">
                                 {successMessage}
                             </div>
                         )}
 
                         {errorMessage && (
-                            <div className="bg-red-500 text-white p-4 rounded my-4">
+                            <div className="bg-red-500 text-white p-4 rounded my-4 mx-auto text-center w-fit">
                                 {errorMessage}
                             </div>
                         )}
@@ -128,12 +147,26 @@ const AddEvents = () => {
                             />
                         </div>
                         <div className="mt-3 flex justify-center">
-                            <input 
-                                onChange={(e) => setValues({ ...values, participants: e.target.value })} 
+                            <select 
+                                onChange={(e) => setValues({ ...values, event_type: e.target.value })} 
                                 className="shadow appearance-none border rounded md:w-3/4 mx-auto mt-2 py-4 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
-                                id="participants"
+                                id="event_type"
+                                required
+                            >
+                                <option value="">Select Event Type</option>
+                                <option value="JPK">JPK</option>
+                                <option value="MPP">MPP</option>
+                                <option value="Faculty">Faculty</option>
+                                <option value="Club">Club</option>
+                            </select>
+                        </div>
+                        <div className="mt-3 flex justify-center">
+                            <input 
+                                onChange={(e) => setValues({ ...values, max_participants: e.target.value })} 
+                                className="shadow appearance-none border rounded md:w-3/4 mx-auto mt-2 py-4 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
+                                id="max_participants"
                                 type="number"
-                                placeholder="10"
+                                placeholder="Maximum Participants"
                                 required
                             />
                         </div>
@@ -144,6 +177,9 @@ const AddEvents = () => {
                                 id="event_picture"
                                 type="file"
                             />
+                        </div>
+                        <div className="absolute top--2 right-90 text-white rounded p-2">
+                            <p className="text-sm">Points: {points}</p>
                         </div>
                         <div className="flex items-center justify-center mt-4">
                             <button className="bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

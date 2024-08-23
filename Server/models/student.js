@@ -1,7 +1,6 @@
 import { pool } from "../database/index.js";
 
 // create student table
-
 const query = `
 CREATE TABLE IF NOT EXISTS student (
     student_id SERIAL PRIMARY KEY,
@@ -9,7 +8,7 @@ CREATE TABLE IF NOT EXISTS student (
     student_email VARCHAR(255) UNIQUE NOT NULL, 
     student_password VARCHAR(255) NOT NULL,
     student_gender VARCHAR(10) NOT NULL,
-    student_points INTEGER DEFAULT 0, 
+    total_points INTEGER DEFAULT 0, 
     created_at TIMESTAMP DEFAULT NOW(), 
     updated_at TIMESTAMP DEFAULT NOW()
 );

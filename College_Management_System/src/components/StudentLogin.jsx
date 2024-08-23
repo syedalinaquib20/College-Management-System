@@ -8,6 +8,9 @@ const StudentLogin = () => {
         student_password: '' 
      })
 
+     const [successMessage, setSuccessMessage] = useState('');
+     const [errorMessage, setErrorMessage] = useState(''); 
+
      const navigate = useNavigate();
  
      const handleSubmit = (event) => {
@@ -15,18 +18,32 @@ const StudentLogin = () => {
          axios.post('http://localhost:3000/student-login', values)
          .then(result => {
             console.log(result.data)
-            if (result.data.loginStatus) {
-                localStorage.setItem("Valid", true)
-                navigate('/auth/dashboard-student')
+            if (result.data && result.data.message) {
+                setSuccessMessage(result.data.message);
+                localStorage.setItem("Valid", true) 
+                localStorage.setItem("StudentName", result.data.student_name);
+                localStorage.setItem("token", result.data.token);            
             } else {
-                console.log("Login failed")
+                setSuccessMessage("Event added successfully!");
             }
+            setErrorMessage('');
+            setTimeout(() => {
+                navigate('/auth/student/dashboard-student')
+            }, 2000)
          })
          .catch(err => {
-            console.log(err)
-            console.log("An error occured while logging in")
-         })
-     }
+            console.error(err);
+            setSuccessMessage('');
+            if (err.response && err.response.data && err.response.data.message) {
+                setErrorMessage(err.response.data.message);
+            } else {
+                setErrorMessage('An unexpected error occurred');
+            }
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000)
+        })
+    }
 
      const handleBackToRegister = () => {
         navigate('/student-register');
@@ -35,8 +52,20 @@ const StudentLogin = () => {
   return (
     <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center">
       <div className="flex flex-col w-6/12 bg-cover bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-2xl mt-3 text-center">STUDENT LOGIN PAGE</h1>
         <form onSubmit={handleSubmit}>
+            <h1 className="text-2xl mt-3 text-center">STUDENT LOGIN PAGE</h1>
+            {successMessage && (
+                            <div className="bg-green-500 text-white p-4 rounded my-4">
+                                {successMessage}
+                            </div>
+                        )}
+
+            {errorMessage && (
+                <div className="bg-red-500 text-white p-4 rounded my-4">
+                    {errorMessage}
+                </div>
+            )}
+
             <div className="mt-3">
                 <label className="block text-gray text-sm font-bold mt-3" htmlFor="username">
                     Email: 

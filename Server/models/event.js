@@ -8,7 +8,11 @@ CREATE TABLE IF NOT EXISTS event (
     event_date TIMESTAMP NOT NULL, 
     event_place VARCHAR (255) NOT NULL, 
     event_picture VARCHAR(255), 
-    participants INTEGER DEFAULT 0, 
+    max_participants INTEGER NOT NULL,
+    current_participants INTEGER DEFAULT 0, 
+    status VARCHAR(20) DEFAULT 'available',
+    event_type VARCHAR(50) NOT NULL,
+    points_allocated INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT NOW(), 
     updated_at TIMESTAMP DEFAULT NOW()
 );

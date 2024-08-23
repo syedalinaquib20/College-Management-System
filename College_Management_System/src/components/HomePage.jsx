@@ -16,7 +16,7 @@ const HomePage = () => {
     return (
         <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center">
             <div className="bg-white text-black w-3/4 py-10 px-10 rounded-lg shadow-lg mb-12">
-                <h1 className="text-5xl text-center">COLLEGE COUPON COUNTING SYSTEM</h1>
+                <h1 className="text-5xl text-center">COLLEGE MANAGEMENT SYSTEM</h1>
                 <div className="flex justify-center mt-10 p-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-16 w-full max-w-3xl">
                         <div 

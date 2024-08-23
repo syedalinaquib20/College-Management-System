@@ -9,7 +9,7 @@ const UpdateEvent = () => {
         event_name: '', 
         event_date: '', 
         event_place: '', 
-        participants: ''
+        max_participants: ''
     });
 
     const [successMessage, setSuccessMessage] = useState('');
@@ -32,11 +32,12 @@ const UpdateEvent = () => {
         })
         .then(response => {
             const event = response.data.event;
+            const formattedDate = new Date(event.event_date).toISOString().split('T')[0];
             setValues({
                 event_name: event.event_name,
-                event_date: event.event_date.split('T')[0], // Format the date correctly
+                event_date: formattedDate, 
                 event_place: event.event_place,
-                participants: event.participants
+                max_participants: event.max_participants
             });
         })
         .catch(err => {
@@ -49,13 +50,13 @@ const UpdateEvent = () => {
         event.preventDefault();
         
         const token = localStorage.getItem('token');
-        const { event_name, event_date, event_place, participants } = values;
+        const { event_name, event_date, event_place, max_participants } = values;
 
         axios.put(`http://localhost:3000/auth/admin/admin-update-event/${event_id}`, {
             event_name,
             event_date,
             event_place,
-            participants
+            max_participants
         }, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -147,18 +148,18 @@ const UpdateEvent = () => {
                         </div>
                         <div className="mt-3 flex justify-center">
                             <input 
-                                value={values.participants}
-                                onChange={(e) => setValues({ ...values, participants: e.target.value })} 
+                                value={values.max_participants}
+                                onChange={(e) => setValues({ ...values, max_participants: e.target.value })} 
                                 className="shadow appearance-none border rounded md:w-3/4 mx-auto mt-2 py-4 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
                                 id="participants"
                                 type="number"
-                                placeholder="10"
+                                placeholder="100"
                                 required
                             />
                         </div>
                         <div className="flex items-center justify-center mt-4">
                             <button className="bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                UPDATE EVENTS
+                                UPDATE
                             </button>
                         </div>
                     </form>  
