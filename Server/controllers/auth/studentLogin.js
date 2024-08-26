@@ -60,7 +60,8 @@ const studentLogin = async (req, res) => {
             message: "You are successfully login!", 
             token: token,
             loginStatus: true,
-            student_name: user.student_name
+            student_name: user.student_name, 
+            student_id: user.student_id
         });
 
     } catch (error) {

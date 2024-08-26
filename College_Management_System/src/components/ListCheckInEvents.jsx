@@ -3,41 +3,44 @@ import axios from 'axios';
 import { IoArrowBackSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 
-const ListAvailableEvents = () => {
+const ListCheckInEvents = () => {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [error, setError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const fetchCheckInEvents = async () => {
         const token = localStorage.getItem('token');
         const student_id = localStorage.getItem('studentId');
 
         if (student_id) {
-            axios.get(`http://localhost:3000/auth/student/student-list-available-events/${student_id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
+            try {
+                const response = await axios.get(`http://localhost:3000/auth/student/student-list-check-in-events/${student_id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 console.log(response.data);
                 const sortedEvents = response.data.events.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
                 setEvents(sortedEvents);
                 setFilteredEvents(sortedEvents);
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error(error);
-                setError('Failed to fetch the events');
-            });
+                setErrorMessage('Failed to fetch the events');
+            }
         } else {
-            setError('No student ID found');
+            setErrorMessage('No student ID found');
         }
-        
-    }, []); 
+    };
+
+    useEffect(() => {
+        fetchCheckInEvents(); 
+    }, [navigate]);
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -55,18 +58,67 @@ const ListAvailableEvents = () => {
 
     const back = () => {
         const student_id = localStorage.getItem('studentId');
+        fetchCheckInEvents();
         navigate(`/auth/student/dashboard-student/${student_id}`);
     }
 
-    const handleEventDetails = (event_id) => {
+    const handleCheckInDetails = (eventId) => {
+        const token = localStorage.getItem('token');
         const student_id = localStorage.getItem('studentId');
-        if (student_id) {
-            navigate(`/auth/student/join-event/${student_id}/${event_id}`);
-        } else {
-            console.error('Student ID is not available');
-        }
         
+        axios.put(`http://localhost:3000/auth/student/check-in-event/${student_id}/${eventId}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            if (result.data && result.data.message) {
+                setSuccessMessage(result.data.message);
+            } else {
+                setSuccessMessage("Check in event successfully!");
+            }
+            setErrorMessage('');
+            setTimeout(() => {
+                navigate(`/auth/student/student-list-joined-events/${student_id}`);
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Error in Axios request:', err);
+            setSuccessMessage('');
+            if (err.response && err.response.data && err.response.data.message) {
+                setErrorMessage(err.response.data.message);
+            } else {
+                setErrorMessage('An unexpected error occurred');
+            }
+            setTimeout(() => {
+                navigate(`/auth/student/student-list-check-in-events/${student_id}`);
+            }, 2000);
+        });
     }
+
+    const handleCancelDetails = (eventId) => {
+        const token = localStorage.getItem('token');
+        const studentId = localStorage.getItem('studentId');
+        axios.post('http://localhost:3000/auth/student/cancel-event', {
+            studentId,
+            eventId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(() => {
+            setEvents(events.map(event => 
+                event.event_id === eventId ? { ...event, status: 'cancelled' } : event
+            ));
+            setFilteredEvents(filteredEvents.map(event => 
+                event.event_id === eventId ? { ...event, status: 'cancelled' } : event
+            ));
+        })
+        .catch(() => {
+            setErrorMessage('Failed to cancel the event');
+        });
+    };
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -87,10 +139,15 @@ const ListAvailableEvents = () => {
             </header>
             <div className="flex justify-center items-center flex-grow mt-4">
                 <div className="flex flex-col w-full md:w-11/12 lg:w-9/12 bg-cover bg-white rounded-lg shadow-lg p-8">
-                    <h1 className="text-2xl text-center text-black mb-4">List of Events</h1>
-                    {error && (
+                    <h1 className="text-2xl text-center text-black mb-4">List of Check in Events</h1>
+                    {successMessage && (
+                        <div className="bg-green-500 text-white p-4 rounded my-4">
+                            {successMessage}
+                        </div>
+                    )}
+                    {errorMessage && (
                         <div className="bg-red-500 text-white p-4 rounded mb-4">
-                            {error}
+                            {errorMessage}
                         </div>
                     )}
                     <input 
@@ -107,8 +164,6 @@ const ListAvailableEvents = () => {
                                     <th className="px-4 py-2">Event Name</th>
                                     <th className="px-4 py-2">Date</th>
                                     <th className="px-4 py-2">Place</th>
-                                    <th className="px-4 py-2">Max Participants</th>
-                                    <th className="px-4 py-2">Current Participants</th>
                                     <th className="px-4 py-2">Event Type</th>
                                     <th className="px-4 py-2">Status</th>
                                     <th className="px-4 py-2">Points Allocated</th>
@@ -121,18 +176,22 @@ const ListAvailableEvents = () => {
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.event_name}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{formatDate(event.event_date)}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.event_place}</td>
-                                        <td className="border px-4 py-2 text-left whitespace-nowrap">{event.max_participants}</td>
-                                        <td className="border px-4 py-2 text-left whitespace-nowrap">{event.current_participants}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.event_type}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.status}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.points_allocated}</td>
                                         <td className="border px-4 py-2 text-left">
                                             <div className="flex space-x-2">
                                                 <button 
-                                                    onClick={() => handleEventDetails(event.event_id)}
-                                                    className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
+                                                    onClick={() => handleCheckInDetails(event.event_id)}
+                                                    className="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-2 rounded mr-2"
                                                 >
-                                                    Details
+                                                    Check In
+                                                </button>
+                                                <button
+                                                    onClick={() => handleCancelDetails(event.event_id)}
+                                                    className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-2 rounded mr-2"
+                                                >
+                                                    Cancel
                                                 </button>
                                             </div>    
                                         </td>
@@ -164,4 +223,4 @@ const ListAvailableEvents = () => {
     );
 }
 
-export default ListAvailableEvents;
+export default ListCheckInEvents;

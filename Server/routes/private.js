@@ -11,6 +11,14 @@ import listStudents from "../controllers/auth/listStudents.js";
 import deleteStudentEvent from "../controllers/auth/deleteStudentEvent.js";
 import getStatisticsStudentById from "../controllers/auth/deleteStudentEvent.js";
 import listAvailableEvents from "../controllers/auth/listAvailableEvents.js";
+import listJoinedEvents from '../controllers/auth/listJoinedEvents.js';
+import listCheckInEvents from "../controllers/auth/listCheckInEvents.js";
+import checkInEvent from "../controllers/auth/checkInEvent.js";
+import cancelEvent from "../controllers/auth/cancelEvent.js";
+import manageAccount from "../controllers/auth/manageAccount.js";
+import getStudentAccount from "../controllers/auth/getStudentAccount.js";
+import joinEvent from "../controllers/auth/joinEvent.js";
+import getStudentEventById from "../controllers/auth/getStudentEventById.js";
 
 const privateRouter = Router();
 
@@ -45,7 +53,23 @@ privateRouter.get("/admin/student/:id", getStudentById);
 
 privateRouter.get("/student/student/:id", getStatisticsStudentById);
 
-privateRouter.get("/student/student-list-available-events", listAvailableEvents);
+privateRouter.get("/student/student-list-available-events/:student_id", listAvailableEvents);
+
+privateRouter.get("/student/student-list-joined-events/:student_id", listJoinedEvents);
+
+privateRouter.get("/student/student-list-check-in-events/:student_id", listCheckInEvents);
+
+privateRouter.put("/student/check-in-event/:student_id/:event_id", checkInEvent);
+
+privateRouter.delete("/student/cancel-check-in/:eventId", cancelEvent);
+
+privateRouter.put("/student/update-password/:id", manageAccount);
+
+privateRouter.get("/student/account-management/:id", getStudentAccount);
+
+privateRouter.post("/student/join-event/:student_id/:event_id", joinEvent);
+
+privateRouter.get("/student/student-event/:id", getStudentEventById); 
 
 // Student routes
 privateRouter.get("/student/dashboard-student", (req, res) => {

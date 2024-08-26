@@ -15,6 +15,10 @@ import ListStudents from './components/ListStudents';
 import UpdateStudentEvent from './components/UpdateStudentEvent';
 import HomePage from './components/HomePage';
 import ListAvailableEvents from './components/ListAvailableEvents';
+import ListJoinedEvents from './components/ListJoinedEvents';
+import ListCheckInEvents from './components/ListCheckInEvents';
+import ManageAccount from './components/ManageAccount';
+import StudentJoinEvent from './components/StudentJoinEvent';
 
 const App = () => {
   console.log('App component rendered');
@@ -36,8 +40,12 @@ const App = () => {
         </Route>
 
         <Route element={<PrivateRouteStudent />}>
-          <Route path="/auth/student/dashboard-student" element={<DashboardStudent />} />  
-          <Route path="/auth/student/student-list-available-events" element={<ListAvailableEvents />} />
+          <Route path="/auth/student/dashboard-student/:student_id" element={<DashboardStudent />} />  
+          <Route path="/auth/student/student-list-available-events/:student_id" element={<ListAvailableEvents />} />
+          <Route path="/auth/student/student-list-joined-events/:student_id" element={<ListJoinedEvents/>} />
+          <Route path="/auth/student/student-list-check-in-events/:student_id" element={<ListCheckInEvents/>} />
+          <Route path="/auth/student/update-password/:id" element={<ManageAccount/>} />
+          <Route path="/auth/student/join-event/:student_id/:event_id" element={<StudentJoinEvent />} />
         </Route>
       
         <Route path="/" element={<HomePage />} /> 

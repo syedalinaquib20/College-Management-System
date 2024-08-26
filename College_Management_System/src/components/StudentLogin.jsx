@@ -22,13 +22,15 @@ const StudentLogin = () => {
                 setSuccessMessage(result.data.message);
                 localStorage.setItem("Valid", true) 
                 localStorage.setItem("StudentName", result.data.student_name);
+                localStorage.setItem("studentId", result.data.student_id);
                 localStorage.setItem("token", result.data.token);            
             } else {
                 setSuccessMessage("Event added successfully!");
             }
             setErrorMessage('');
             setTimeout(() => {
-                navigate('/auth/student/dashboard-student')
+                const student_id = localStorage.getItem('studentId');
+                navigate(`/auth/student/dashboard-student/${student_id}`);
             }, 2000)
          })
          .catch(err => {

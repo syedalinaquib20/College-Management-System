@@ -3,7 +3,7 @@ import axios from 'axios';
 import { IoArrowBackSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 
-const ListAvailableEvents = () => {
+const ListJoinedEvents = () => {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -13,32 +13,33 @@ const ListAvailableEvents = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const student_id = localStorage.getItem('studentId');
-
-        if (student_id) {
-            axios.get(`http://localhost:3000/auth/student/student-list-available-events/${student_id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                console.log(response.data);
+    const fetchJoinedEvents = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const student_id = localStorage.getItem('studentId');
+        
+            if (student_id) {
+                const response = await axios.get(`http://localhost:3000/auth/student/student-list-joined-events/${student_id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 const sortedEvents = response.data.events.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
                 setEvents(sortedEvents);
                 setFilteredEvents(sortedEvents);
-            })
-            .catch(error => {
-                console.error(error);
-                setError('Failed to fetch the events');
-            });
-        } else {
-            setError('No student ID found');
+            } else {
+                setError('No student ID found');
+            }
+        } catch (error) {
+            console.error(error);
+            setError('Failed to fetch the events');
         }
-        
-    }, []); 
+    };
 
+    useEffect(() => {
+        fetchJoinedEvents();
+    }, [navigate]);
+    
     const handleSearch = (e) => {
         const value = e.target.value;
         setSearchTerm(value);
@@ -55,17 +56,8 @@ const ListAvailableEvents = () => {
 
     const back = () => {
         const student_id = localStorage.getItem('studentId');
+        fetchJoinedEvents();
         navigate(`/auth/student/dashboard-student/${student_id}`);
-    }
-
-    const handleEventDetails = (event_id) => {
-        const student_id = localStorage.getItem('studentId');
-        if (student_id) {
-            navigate(`/auth/student/join-event/${student_id}/${event_id}`);
-        } else {
-            console.error('Student ID is not available');
-        }
-        
     }
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -87,7 +79,7 @@ const ListAvailableEvents = () => {
             </header>
             <div className="flex justify-center items-center flex-grow mt-4">
                 <div className="flex flex-col w-full md:w-11/12 lg:w-9/12 bg-cover bg-white rounded-lg shadow-lg p-8">
-                    <h1 className="text-2xl text-center text-black mb-4">List of Events</h1>
+                    <h1 className="text-2xl text-center text-black mb-4">List of Joined Events</h1>
                     {error && (
                         <div className="bg-red-500 text-white p-4 rounded mb-4">
                             {error}
@@ -107,12 +99,9 @@ const ListAvailableEvents = () => {
                                     <th className="px-4 py-2">Event Name</th>
                                     <th className="px-4 py-2">Date</th>
                                     <th className="px-4 py-2">Place</th>
-                                    <th className="px-4 py-2">Max Participants</th>
-                                    <th className="px-4 py-2">Current Participants</th>
                                     <th className="px-4 py-2">Event Type</th>
                                     <th className="px-4 py-2">Status</th>
                                     <th className="px-4 py-2">Points Allocated</th>
-                                    <th className="px-4 py-2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,21 +110,9 @@ const ListAvailableEvents = () => {
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.event_name}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{formatDate(event.event_date)}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.event_place}</td>
-                                        <td className="border px-4 py-2 text-left whitespace-nowrap">{event.max_participants}</td>
-                                        <td className="border px-4 py-2 text-left whitespace-nowrap">{event.current_participants}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.event_type}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.status}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{event.points_allocated}</td>
-                                        <td className="border px-4 py-2 text-left">
-                                            <div className="flex space-x-2">
-                                                <button 
-                                                    onClick={() => handleEventDetails(event.event_id)}
-                                                    className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
-                                                >
-                                                    Details
-                                                </button>
-                                            </div>    
-                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -164,4 +141,4 @@ const ListAvailableEvents = () => {
     );
 }
 
-export default ListAvailableEvents;
+export default ListJoinedEvents;
