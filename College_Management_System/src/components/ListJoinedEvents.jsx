@@ -13,6 +13,20 @@ const ListJoinedEvents = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const storedEvents = localStorage.getItem('joinedEvents');
+        if (storedEvents) {
+          setEvents(JSON.parse(storedEvents));
+          setFilteredEvents(JSON.parse(storedEvents));
+        } else {
+          fetchJoinedEvents();
+        }
+      }, []);
+    
+      useEffect(() => {
+        localStorage.setItem('joinedEvents', JSON.stringify(events));
+      }, [events]);
+
     const fetchJoinedEvents = async () => {
         try {
             const token = localStorage.getItem('token');

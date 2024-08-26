@@ -9,8 +9,8 @@ import axios from 'axios';
 const DashboardStudent = () => {
   const [studentName, setStudentName] = useState('');
   const [statistics, setStatistics] = useState({
-    joinedEvents: [], 
-    checkInEvents: [], 
+    joinedEvents: 0, 
+    checkInEvents: 0, 
     points: 0,
   });
 
@@ -24,13 +24,13 @@ const DashboardStudent = () => {
 
     if (studentId) {  
       const token = localStorage.getItem("token");
-      axios.get(`http://localhost:3000/auth/student/student/${studentId}`, {
+      axios.get(`http://localhost:3000/auth/student/statistics/${studentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
       .then(response => {
-        const { joinedEvents = [], checkInEvents = [], points = 0 } = response.data;
+        const { joinedEvents, checkInEvents, points } = response.data;
         setStatistics({ joinedEvents, checkInEvents, points });
       })
       .catch(error => {
@@ -69,11 +69,11 @@ const DashboardStudent = () => {
         <div className="flex justify-center space-x-4 text-lg bg-gray-700 p-4 rounded-lg w-fit gap-8">
           <div className="flex items-center gap-2">
             <MdEmojiEvents className="h-8 w-10" />
-            <span className="text-xl">Joined Events: {statistics.joinedEvents.length}</span>
+            <span className="text-xl">Joined Events: {statistics.joinedEvents}</span>
           </div>
           <div className="flex items-center gap-2">
             <MdOutlineEmojiEvents className="h-8 w-10" />
-            <span className="text-xl">Check-In Events: {statistics.checkInEvents.length}</span>
+            <span className="text-xl">Check-In Events: {statistics.checkInEvents}</span>
           </div>
           <div className="flex items-center gap-2">
             <VscActivateBreakpoints className="h-8 w-10" />

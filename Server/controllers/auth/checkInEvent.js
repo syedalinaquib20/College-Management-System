@@ -6,6 +6,19 @@ const checkInEvent = async (req, res) => {
     console.log("Event ID: ", event_id);
 
     try {
+        // Check if student has already checked into the event
+        const checkQuery = `
+            SELECT *
+            FROM student_event
+            WHERE student_id = $1 AND event_id = $2 AND status = 'joined'
+        `;
+        const checkResult = await pool.query(checkQuery, [student_id, event_id]);
+        if (checkResult.rows.length > 0) {
+            return res.status(400).json({
+                message: "Student has already checked into this event"
+            });
+        }
+
         // Update the student_event status to 'joined'
         const updateStatusQuery = `
             UPDATE student_event

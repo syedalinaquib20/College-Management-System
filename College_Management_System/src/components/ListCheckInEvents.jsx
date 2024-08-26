@@ -14,6 +14,20 @@ const ListCheckInEvents = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const storedEvents = localStorage.getItem('checkInEvents');
+        if (storedEvents) {
+          setEvents(JSON.parse(storedEvents));
+          setFilteredEvents(JSON.parse(storedEvents));
+        } else {
+          fetchCheckInEvents();
+        }
+      }, []);
+    
+      useEffect(() => {
+        localStorage.setItem('checkInEvents', JSON.stringify(events));
+      }, [events]);
+
     const fetchCheckInEvents = async () => {
         const token = localStorage.getItem('token');
         const student_id = localStorage.getItem('studentId');
@@ -97,28 +111,39 @@ const ListCheckInEvents = () => {
     }
 
     const handleCancelDetails = (eventId) => {
-        const token = localStorage.getItem('token');
-        const studentId = localStorage.getItem('studentId');
-        axios.post('http://localhost:3000/auth/student/cancel-event', {
-            studentId,
-            eventId
-        }, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(() => {
-            setEvents(events.map(event => 
-                event.event_id === eventId ? { ...event, status: 'cancelled' } : event
-            ));
-            setFilteredEvents(filteredEvents.map(event => 
-                event.event_id === eventId ? { ...event, status: 'cancelled' } : event
-            ));
-        })
-        .catch(() => {
-            setErrorMessage('Failed to cancel the event');
-        });
-    };
+    const token = localStorage.getItem('token');
+    const student_id = localStorage.getItem('studentId');
+
+    axios.put(`http://localhost:3000/auth/student/cancel-event/${student_id}/${eventId}`, {}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(result => {
+        if (result.data && result.data.message) {
+            setSuccessMessage(result.data.message);
+        } else {
+            setSuccessMessage("Cancel event successfully!");
+        }
+        setErrorMessage('');
+        setTimeout(() => {
+            navigate(`/auth/student/student-list-available-events/${student_id}`);
+        }, 2000);
+    })
+    .catch(err => {
+        console.error('Error in Axios request:', err);
+        setSuccessMessage('');
+        if (err.response && err.response.data && err.response.data.message) {
+            setErrorMessage(err.response.data.message);
+        } else {
+            setErrorMessage('An unexpected error occurred');
+        }
+        setTimeout(() => {
+            navigate(`/auth/student/student-list-check-in-events/${student_id}`);
+        }, 2000);
+    });
+};
+
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;

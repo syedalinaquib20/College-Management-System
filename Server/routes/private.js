@@ -19,6 +19,7 @@ import manageAccount from "../controllers/auth/manageAccount.js";
 import getStudentAccount from "../controllers/auth/getStudentAccount.js";
 import joinEvent from "../controllers/auth/joinEvent.js";
 import getStudentEventById from "../controllers/auth/getStudentEventById.js";
+import getStudentStatistics from "../controllers/auth/getStudentStatistics.js";
 
 const privateRouter = Router();
 
@@ -61,7 +62,7 @@ privateRouter.get("/student/student-list-check-in-events/:student_id", listCheck
 
 privateRouter.put("/student/check-in-event/:student_id/:event_id", checkInEvent);
 
-privateRouter.delete("/student/cancel-check-in/:eventId", cancelEvent);
+privateRouter.put("/student/cancel-event/:student_id/:event_id", cancelEvent);
 
 privateRouter.put("/student/update-password/:id", manageAccount);
 
@@ -70,6 +71,8 @@ privateRouter.get("/student/account-management/:id", getStudentAccount);
 privateRouter.post("/student/join-event/:student_id/:event_id", joinEvent);
 
 privateRouter.get("/student/student-event/:id", getStudentEventById); 
+
+privateRouter.get("/student/statistics/:student_id", getStudentStatistics);
 
 // Student routes
 privateRouter.get("/student/dashboard-student", (req, res) => {
