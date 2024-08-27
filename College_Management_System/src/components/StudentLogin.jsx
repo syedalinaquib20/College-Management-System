@@ -51,6 +51,10 @@ const StudentLogin = () => {
         navigate('/student-register');
     };
 
+    const back = () => {
+        navigate('/');
+    }
+
   return (
     <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center">
       <div className="flex flex-col w-6/12 bg-cover bg-white rounded-lg shadow-lg p-8">
@@ -95,15 +99,27 @@ const StudentLogin = () => {
                     SIGN IN
                 </button>
             </div>
-            <div className="flex items-center justify-center mt-10">
+            <div className="flex flex-row justify-center mt-10">
+                <div className="items-center ml-12">
                         <button 
                             type="button" 
                             onClick={handleBackToRegister} 
-                            className="text-black py-2 px-4 border-none focus:outline-none focus:shadow-outline"
+                            className="text-black py-2 px-40 border-none focus:outline-none focus:shadow-outline"
                         >
                             Not have an account? <span className='underline'>Sign up</span>
                         </button>
-                    </div>      
+                </div>
+                <div className="ml-6">
+                    <button 
+                            type="button" 
+                            onClick={back} 
+                            className="text-black py-2 px-0 border-none focus:outline-none focus:shadow-outline"
+                        >
+                            <span className="underline">Back</span>
+                    </button>
+                </div>
+                        
+            </div>      
         </form>
       </div>
     </div>

@@ -7,7 +7,6 @@ const ListStudents = () => {
     const [students, setStudents] = useState([]);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [success, setSuccessMessage] = useState('');
     const [error, setError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -24,7 +23,7 @@ const ListStudents = () => {
         .then(response => {
             console.log(response.data);
             const sortedStudents = response.data.student.sort((a, b) => 
-                a.student_name.localeCompare(b.student_name)
+                b.total_points - a.total_points
         );
             setStudents(sortedStudents);
             setFilteredStudents(sortedStudents);
@@ -48,44 +47,6 @@ const ListStudents = () => {
         navigate("/auth/admin/dashboard");
     }
 
-    const handleUpdate = (id) => {
-        navigate(`/auth/admin/admin-update-student/${id}`);
-    }
-
-    const handleDelete = (studentId) => {
-        const token = localStorage.getItem("token");
-        axios.delete(`http://localhost:3000/auth/admin/admin-delete-student/${studentId}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            console.log(response);
-            if (response.data && response.data.message) {
-                setSuccessMessage(response.data.message);
-            } else {
-                setSuccessMessage("Student deleted successfully!");
-            }
-
-            setError('')
-            setTimeout(() => {
-                navigate('/auth/admin/dashboard');
-            }, 2000)
-        })
-        .catch(error => {
-            console.error(error);
-            setSuccessMessage('');
-            if (error.response && error.response.data.message) {
-                setError(error.response.data.message);
-            } else {
-                setError('An unexpected error occurred');
-            }
-            setTimeout(() => {
-                navigate('/auth/admin/dashboard');
-            }, 2000)
-        })
-    }
-
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredStudents.slice(indexOfFirstItem, indexOfLastItem);
@@ -106,12 +67,6 @@ const ListStudents = () => {
             <div className="flex justify-center items-center flex-grow mt-4">
                 <div className="flex flex-col w-full md:w-11/12 lg:w-9/12 bg-cover bg-white rounded-lg shadow-lg p-8">
                     <h1 className="text-2xl text-center text-black mb-4">List of Students</h1>
-                    {success && (
-                            <div className="bg-green-500 text-white p-4 rounded my-4">
-                                {success}
-                            </div>
-                    )}
-
                     {error && (
                         <div className="bg-red-500 text-white p-4 rounded mb-4">
                             {error}
@@ -132,7 +87,6 @@ const ListStudents = () => {
                                     <th className="px-4 py-2">Email</th>
                                     <th className="px-4 py-2">Gender</th>
                                     <th className="px-4 py-2">Total Points</th>
-                                    <th className="px-4 py-2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -142,22 +96,6 @@ const ListStudents = () => {
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{student.student_email}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{student.student_gender}</td>
                                         <td className="border px-4 py-2 text-left whitespace-nowrap">{student.total_points}</td>
-                                        <td className="border px-4 py-2 text-left">
-                                            <div className="flex space-x-2">
-                                                <button 
-                                                    onClick={() => handleUpdate(student.student_id)}
-                                                    className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
-                                                >
-                                                    Update
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(student.student_id)}
-                                                    className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-2 rounded mr-2"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>    
-                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

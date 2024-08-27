@@ -3,9 +3,9 @@ import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { IoArrowBackSharp } from "react-icons/io5";
 
-const ManageAccount = () => {
+const ManageAccountAdmin = () => {
     const [values, setValues] = useState({
-        student_name: '', 
+        admin_name: '', 
         current_password: '', 
         new_password: ''
     });
@@ -16,30 +16,30 @@ const ManageAccount = () => {
     const navigate = useNavigate();
 
     const back = () => {
-        const student_id = localStorage.getItem('studentId');
-        navigate(`/auth/student/dashboard-student/${student_id}`);
+        const admin_id = localStorage.getItem('adminId')
+        navigate(`/auth/admin/dashboard/${admin_id}`);
     };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const studentId = localStorage.getItem('studentId');  
+        const adminId = localStorage.getItem('adminId');  
 
-        axios.get(`http://localhost:3000/auth/student/account-management/${studentId}`, {
+        axios.get(`http://localhost:3000/auth/admin/account-management/${adminId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {
-            const student = response.data.student;
+            const admin = response.data.admin;
             setValues({
-                student_name: student.student_name,
+                admin_name: admin.admin_name,
                 current_password: '', 
                 new_password: ''
             });
         })
         .catch(err => {
-            console.error('Error fetching student data:', err);
-            setErrorMessage('Failed to fetch student data');
+            console.error('Error fetching admin data:', err);
+            setErrorMessage('Failed to fetch admin data');
         });
     }, []);
 
@@ -47,9 +47,9 @@ const ManageAccount = () => {
         event.preventDefault();
         
         const token = localStorage.getItem('token');
-        const studentId = localStorage.getItem('studentId');
+        const adminId = localStorage.getItem('adminId');
 
-        axios.put(`http://localhost:3000/auth/student/update-password/${studentId}`, {
+        axios.put(`http://localhost:3000/auth/admin/update-password/${adminId}`, {
             current_password: values.current_password,
             new_password: values.new_password
         }, {
@@ -65,7 +65,7 @@ const ManageAccount = () => {
             }
             setErrorMessage('');
             setTimeout(() => {
-                navigate('/auth/student/dashboard-student/:id');
+                navigate('/auth/admin/dashboard/:id');
             }, 2000);
         })
         .catch(err => {
@@ -77,7 +77,7 @@ const ManageAccount = () => {
                 setErrorMessage('An unexpected error occurred');
             }
             setTimeout(() => {
-                navigate('/auth/student/dashboard-student');
+                navigate('/auth/admin/dashboard');
             }, 2000);
         });
     };
@@ -110,12 +110,12 @@ const ManageAccount = () => {
 
                         <div className="mt-3 flex justify-center">
                             <input 
-                                value={values.student_name}
+                                value={values.admin_name}
                                 disabled
                                 className="bg-gray-400 shadow appearance-none border rounded md:w-3/4 mx-auto mt-2 py-4 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
-                                id="student_name"
+                                id="admin_name"
                                 type="text"
-                                placeholder="Student Name"
+                                placeholder="Admin Name"
                                 required
                             />
                         </div>
@@ -153,4 +153,4 @@ const ManageAccount = () => {
     );
 };
 
-export default ManageAccount;
+export default ManageAccountAdmin;

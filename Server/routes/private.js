@@ -20,6 +20,8 @@ import getStudentAccount from "../controllers/auth/getStudentAccount.js";
 import joinEvent from "../controllers/auth/joinEvent.js";
 import getStudentEventById from "../controllers/auth/getStudentEventById.js";
 import getStudentStatistics from "../controllers/auth/getStudentStatistics.js";
+import manageAccountAdmin from "../controllers/auth/manageAccountAdmin.js";
+import getAdminAccount from "../controllers/auth/getAdminAccount.js";
 
 const privateRouter = Router();
 
@@ -51,6 +53,10 @@ privateRouter.put("/admin/admin-update-event/:id", updateEvent);
 privateRouter.get("/admin/event/:id", getEventById);
 
 privateRouter.get("/admin/student/:id", getStudentById);
+
+privateRouter.put("/admin/update-password/:id", manageAccountAdmin);
+
+privateRouter.get("/admin/account-management/:id", getAdminAccount);
 
 privateRouter.get("/student/student/:id", getStatisticsStudentById);
 

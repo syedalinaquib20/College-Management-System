@@ -19,6 +19,7 @@ import ListJoinedEvents from './components/ListJoinedEvents';
 import ListCheckInEvents from './components/ListCheckInEvents';
 import ManageAccount from './components/ManageAccount';
 import StudentJoinEvent from './components/StudentJoinEvent';
+import ManageAccountAdmin from './components/ManageAccountAdmin';
 
 const App = () => {
   console.log('App component rendered');
@@ -31,12 +32,13 @@ const App = () => {
         <Route path="/student-register" element={<StudentRegister />} />
 
         <Route element={<PrivateRoute />}>
-          <Route path="/auth/admin/dashboard" element={<Dashboard />} /> 
+          <Route path="/auth/admin/dashboard/:admin_id" element={<Dashboard />} /> 
           <Route path="/auth/admin/admin-add-events" element={<AddEvents />} /> 
           <Route path="/auth/admin/admin-list-events" element={<ListEvents />} />
           <Route path="/auth/admin/admin-update-event/:event_id" element={<UpdateEvent />} />
           <Route path="/auth/admin/admin-update-student-event/:student_id" element={<UpdateStudentEvent />} />
-          <Route path="/auth/admin/admin-list-students" element={<ListStudents />} />    
+          <Route path="/auth/admin/admin-list-students" element={<ListStudents />} /> 
+          <Route path="/auth/admin/update-password/:id" element={<ManageAccountAdmin />}/>   
         </Route>
 
         <Route element={<PrivateRouteStudent />}>

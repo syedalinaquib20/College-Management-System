@@ -57,10 +57,11 @@ const adminLogin = async (req, res) => {
         const token = jwt.sign(data, secretKey);
 
         res.status(200).json({
-            message: "Token created", 
+            message: "You are successfully login!", 
             token: token,
             loginStatus: true,
-            admin_name: user.admin_name
+            admin_name: user.admin_name, 
+            admin_id: user.admin_id
         });
         
     } catch (error) {
