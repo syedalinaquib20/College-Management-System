@@ -24,7 +24,7 @@ const DashboardStudent = () => {
 
     if (studentId) {  
       const token = localStorage.getItem("token");
-      axios.get(`http://localhost:3000/auth/student/statistics/${studentId}`, {
+      axios.get(`https://college-management-system-r7p5.onrender.com/auth/student/statistics/${studentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

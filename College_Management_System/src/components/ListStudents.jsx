@@ -15,7 +15,7 @@ const ListStudents = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        axios.get('http://localhost:3000/auth/admin/admin-list-students', {
+        axios.get('https://college-management-system-r7p5.onrender.com/auth/admin/admin-list-students', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

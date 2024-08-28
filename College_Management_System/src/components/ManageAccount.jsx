@@ -24,7 +24,7 @@ const ManageAccount = () => {
         const token = localStorage.getItem('token');
         const studentId = localStorage.getItem('studentId');  
 
-        axios.get(`http://localhost:3000/auth/student/account-management/${studentId}`, {
+        axios.get(`https://college-management-system-r7p5.onrender.com/auth/student/account-management/${studentId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -49,7 +49,7 @@ const ManageAccount = () => {
         const token = localStorage.getItem('token');
         const studentId = localStorage.getItem('studentId');
 
-        axios.put(`http://localhost:3000/auth/student/update-password/${studentId}`, {
+        axios.put(`https://college-management-system-r7p5.onrender.com/auth/student/update-password/${studentId}`, {
             current_password: values.current_password,
             new_password: values.new_password
         }, {

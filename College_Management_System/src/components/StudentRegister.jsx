@@ -21,7 +21,7 @@ const StudentRegister = () => {
 
      const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:3000/student-register', values)
+        axios.post('https://college-management-system-r7p5.onrender.com/student-register', values)
             .then(result => {
                 console.log(result);
                 if (result.data && result.data.message) {
