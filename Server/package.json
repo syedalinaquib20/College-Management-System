@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch index.js",
+    "build": "npm i",
     "start": "node index.js"
   },
   "keywords": [],
