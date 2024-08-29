@@ -25,7 +25,7 @@ const UpdateEvent = () => {
         const token = localStorage.getItem('token');
 
         // Fetch the current event data to pre-fill the form
-        axios.get(`http://localhost:3000/auth/admin/event/${event_id}`, {
+        axios.get(`https://college-management-system-0t6u.onrender.com/auth/admin/event/${event_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -52,7 +52,7 @@ const UpdateEvent = () => {
         const token = localStorage.getItem('token');
         const { event_name, event_date, event_place, max_participants } = values;
 
-        axios.put(`http://localhost:3000/auth/admin/admin-update-event/${event_id}`, {
+        axios.put(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-update-event/${event_id}`, {
             event_name,
             event_date,
             event_place,

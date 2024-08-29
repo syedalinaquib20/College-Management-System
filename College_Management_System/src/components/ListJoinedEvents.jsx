@@ -33,7 +33,7 @@ const ListJoinedEvents = () => {
             const student_id = localStorage.getItem('studentId');
         
             if (student_id) {
-                const response = await axios.get(`http://localhost:3000/auth/student/student-list-joined-events/${student_id}`, {
+                const response = await axios.get(`https://college-management-system-0t6u.onrender.com/auth/student/student-list-joined-events/${student_id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

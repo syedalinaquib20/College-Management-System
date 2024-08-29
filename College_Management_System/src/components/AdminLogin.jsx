@@ -15,7 +15,7 @@ const AdminLogin = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:3000/admin-login', values)
+        axios.post('https://college-management-system-0t6u.onrender.com/admin-login', values)
             .then(result => {
                 console.log(result.data);  
                 if (result.data && result.data.message) {

@@ -24,7 +24,7 @@ const ManageAccountAdmin = () => {
         const token = localStorage.getItem('token');
         const adminId = localStorage.getItem('adminId');  
 
-        axios.get(`http://localhost:3000/auth/admin/account-management/${adminId}`, {
+        axios.get(`https://college-management-system-0t6u.onrender.com/auth/admin/account-management/${adminId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -49,7 +49,7 @@ const ManageAccountAdmin = () => {
         const token = localStorage.getItem('token');
         const adminId = localStorage.getItem('adminId');
 
-        axios.put(`http://localhost:3000/auth/admin/update-password/${adminId}`, {
+        axios.put(`https://college-management-system-0t6u.onrender.com/auth/admin/update-password/${adminId}`, {
             current_password: values.current_password,
             new_password: values.new_password
         }, {

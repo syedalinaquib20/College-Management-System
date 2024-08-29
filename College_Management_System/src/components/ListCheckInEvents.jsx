@@ -34,7 +34,7 @@ const ListCheckInEvents = () => {
 
         if (student_id) {
             try {
-                const response = await axios.get(`http://localhost:3000/auth/student/student-list-check-in-events/${student_id}`, {
+                const response = await axios.get(`https://college-management-system-0t6u.onrender.com/auth/student/student-list-check-in-events/${student_id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -80,7 +80,7 @@ const ListCheckInEvents = () => {
         const token = localStorage.getItem('token');
         const student_id = localStorage.getItem('studentId');
         
-        axios.put(`http://localhost:3000/auth/student/check-in-event/${student_id}/${eventId}`, {}, {
+        axios.put(`https://college-management-system-0t6u.onrender.com/auth/student/check-in-event/${student_id}/${eventId}`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -114,7 +114,7 @@ const ListCheckInEvents = () => {
     const token = localStorage.getItem('token');
     const student_id = localStorage.getItem('studentId');
 
-    axios.put(`http://localhost:3000/auth/student/cancel-event/${student_id}/${eventId}`, {}, {
+    axios.put(`https://college-management-system-0t6u.onrender.com/auth/student/cancel-event/${student_id}/${eventId}`, {}, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

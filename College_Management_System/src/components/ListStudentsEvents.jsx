@@ -18,7 +18,7 @@ const ListStudentsEvents = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        axios.get('http://localhost:3000/auth/admin/list-students-with-events', {
+        axios.get('https://college-management-system-0t6u.onrender.com/auth/admin/list-students-with-events', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -58,7 +58,7 @@ const ListStudentsEvents = () => {
 
     const handleDelete = (studentId) => {
         const token = localStorage.getItem("token");
-        axios.delete(`http://localhost:3000/auth/admin/admin-delete-student/${studentId}`, {
+        axios.delete(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-delete-student/${studentId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

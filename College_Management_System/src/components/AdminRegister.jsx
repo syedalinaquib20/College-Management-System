@@ -17,7 +17,7 @@ const AdminRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:3000/admin-register', values)
+        axios.post('https://college-management-system-0t6u.onrender.com/admin-register', values)
             .then(result => {
                 console.log(result);
                 // Redirect to the admin login page after successful registration

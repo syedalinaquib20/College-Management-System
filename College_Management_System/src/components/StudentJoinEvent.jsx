@@ -23,7 +23,7 @@ const StudentJoinEvent = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        axios.get(`http://localhost:3000/auth/student/student-event/${event_id}`, {
+        axios.get(`https://college-management-system-0t6u.onrender.com/auth/student/student-event/${event_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             },
@@ -57,7 +57,7 @@ const StudentJoinEvent = () => {
         const token = localStorage.getItem('token');
         const student_id = localStorage.getItem('studentId'); 
     
-        axios.post(`http://localhost:3000/auth/student/join-event/${student_id}/${event_id}`, {}, {
+        axios.post(`https://college-management-system-0t6u.onrender.com/auth/student/join-event/${student_id}/${event_id}`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
