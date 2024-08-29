@@ -45,9 +45,8 @@ const AddEvents = () => {
 
         // Get the authentication token from localStorage
         const token = localStorage.getItem('token');
-        const admin_id = localStorage.getItem('adminId');
 
-        axios.post(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-add-events/${admin_id}`, values, {
+        axios.post(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-add-events`, values, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -61,7 +60,7 @@ const AddEvents = () => {
             }
             setErrorMessage('');
             setTimeout(() => {
-                navigate(`/auth/admin/dashboard/${admin_id}`);
+                navigate(`/auth/admin/dashboard/:id`);
             }, 2000)
         })
         .catch(err => {
@@ -73,7 +72,7 @@ const AddEvents = () => {
                 setErrorMessage('An unexpected error occurred');
             }
             setTimeout(() => {
-                navigate(`/auth/admin/dashboard/${admin_id}`);
+                navigate(`/auth/admin/dashboard/:id`);
             }, 2000)
         })
     }
