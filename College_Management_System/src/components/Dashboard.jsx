@@ -53,7 +53,7 @@ const Dashboard = () => {
             <span className="text-xl">Add Events</span>
           </div>
           <div
-            onClick={() => navigateTo("/auth/admin/admin-list-events/:admin_id")}
+            onClick={() => navigateTo("/auth/admin/admin-list-events/")}
             className="flex flex-col items-center bg-blue-600 text-white text-center border rounded-lg shadow-lg p-8 hover:bg-blue-800 space-y-2 cursor-pointer hover:shadow-xl transition transform hover:scale-105"
           >
             <MdEventSeat className="h-10 w-10" />
