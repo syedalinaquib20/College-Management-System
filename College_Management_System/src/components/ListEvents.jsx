@@ -48,7 +48,8 @@ const ListEvents = () => {
     };
 
     const back = () => {
-        navigate("/auth/admin/dashboard");
+        const admin_id = localStorage.getItem('adminId');
+        navigate(`/auth/admin/dashboard/${admin_id}`);
     }
 
     const handleUpdate = (id) => {

@@ -77,7 +77,7 @@ const ManageAccountAdmin = () => {
                 setErrorMessage('An unexpected error occurred');
             }
             setTimeout(() => {
-                navigate('/auth/admin/dashboard');
+                navigate('/auth/admin/dashboard/:id');
             }, 2000);
         });
     };

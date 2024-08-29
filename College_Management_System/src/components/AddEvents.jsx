@@ -74,7 +74,7 @@ const AddEvents = () => {
             }
             setErrorMessage('');
             setTimeout(() => {
-                navigate('/auth/admin/dashboard');
+                navigate('/auth/admin/dashboard/:id');
             }, 2000)
         })
         .catch(err => {
@@ -86,7 +86,7 @@ const AddEvents = () => {
                 setErrorMessage('An unexpected error occurred');
             }
             setTimeout(() => {
-                navigate('/auth/admin/dashboard');
+                navigate('/auth/admin/dashboard/:id');
             }, 20000)
         })
     }
