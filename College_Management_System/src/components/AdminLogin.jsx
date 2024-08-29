@@ -88,6 +88,11 @@ const AdminLogin = () => {
                             placeholder="Password"
                         />
                     </div>
+                    <div className="flex items-center justify-center mt-4" >
+                        <button className="bg-gray-900 shadow appearance-none border rounded w-1/3 mt-2 py-2 px-3 text-white focus:outline-none focus:shadow-outline">
+                            SIGN IN
+                        </button>
+                    </div>
                     <div className="flex flex-row justify-center mt-10">
                         <div className="items-center ml-12">
                                 <button 
