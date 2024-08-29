@@ -16,6 +16,7 @@ const ListEvents = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+
         axios.get('https://college-management-system-0t6u.onrender.com/auth/admin/admin-list-events', {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -73,7 +74,7 @@ const ListEvents = () => {
 
             setError('')
             setTimeout(() => {
-                navigate('/auth/admin/dashboard');
+                navigate('/auth/admin/dashboard/:id');
             }, 2000)
         })
         .catch(error => {
@@ -85,7 +86,7 @@ const ListEvents = () => {
                 setError('An unexpected error occurred');
             }
             setTimeout(() => {
-                navigate('/auth/admin/dashboard');
+                navigate('/auth/admin/dashboard/:id');
             }, 2000)
         })
     }

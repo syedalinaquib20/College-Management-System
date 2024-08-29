@@ -8,7 +8,7 @@ const AddEvents = () => {
         event_name: '', 
         event_date: '', 
         event_place: '', 
-        event_type: '', // Initialize with an empty string
+        event_type: '', 
         max_participants: ''
     });
 
@@ -37,7 +37,8 @@ const AddEvents = () => {
     }, [values.event_type])
 
     const back = () => {
-        navigate("/auth/admin/dashboard");
+        const admin_id = localStorage.getItem('adminId');
+        navigate(`/auth/admin/dashboard/${admin_id}`);
     }
 
     useEffect(() => {
@@ -46,6 +47,7 @@ const AddEvents = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        
         const formData = new FormData();
         formData.append('event_name', values.event_name);
         formData.append('event_date', values.event_date);
