@@ -43,6 +43,10 @@ const AdminLogin = () => {
                 }
             })
         };
+    
+    const handleBackToRegister = () => {
+        navigate('/admin-register');
+    };
 
     const back = () => {
         navigate('/');
@@ -84,22 +88,26 @@ const AdminLogin = () => {
                             placeholder="Password"
                         />
                     </div>
-                    <div className="flex flex-row justify-between mt-6">
-                        <div className="flex justify-center w-full ml-14">
-                            <button className="bg-gray-900 py-2 px-10 border rounded text-white focus:outline-none focus:shadow-outline">
-                                SIGN IN
-                            </button>
+                    <div className="flex flex-row justify-center mt-10">
+                        <div className="items-center ml-12">
+                                <button 
+                                    type="button" 
+                                    onClick={handleBackToRegister} 
+                                    className="text-black py-2 px-40 border-none focus:outline-none focus:shadow-outline"
+                                >
+                                    Not have an account? <span className='underline'>Sign up</span>
+                                </button>
                         </div>
-                        <div>
+                        <div className="ml-6">
                             <button 
                                     type="button" 
                                     onClick={back} 
-                                    className="text-black py-2 px-4 border-none focus:outline-none focus:shadow-outline"
+                                    className="text-black py-2 px-0 border-none focus:outline-none focus:shadow-outline"
                                 >
                                     <span className="underline">Back</span>
                             </button>
-                        </div>
-                    </div>
+                        </div>        
+                    </div>      
                 </form>
             </div>
         </div>
