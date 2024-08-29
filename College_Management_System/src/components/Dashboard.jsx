@@ -46,14 +46,14 @@ const Dashboard = () => {
       <div className="flex justify-center w-full mt-10 p-4">
         <div className="grid grid-cols-2 gap-8 w-full max-w-3xl">
           <div 
-            onClick={() => navigateTo("/auth/admin/admin-add-events/:admin_id")}
+            onClick={() => navigateTo("/auth/admin/admin-add-events")}
             className="flex flex-col items-center bg-blue-600 text-white text-center border rounded-lg shadow-lg p-8 hover:bg-blue-800 space-y-2 cursor-pointer hover:shadow-xl transition transform hover:scale-105"
           >
             <FaCalendarPlus className="h-10 w-10" />
             <span className="text-xl">Add Events</span>
           </div>
           <div
-            onClick={() => navigateTo("/auth/admin/admin-list-events/")}
+            onClick={() => navigateTo("/auth/admin/admin-list-events")}
             className="flex flex-col items-center bg-blue-600 text-white text-center border rounded-lg shadow-lg p-8 hover:bg-blue-800 space-y-2 cursor-pointer hover:shadow-xl transition transform hover:scale-105"
           >
             <MdEventSeat className="h-10 w-10" />
