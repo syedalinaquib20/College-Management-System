@@ -34,7 +34,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/auth/admin/dashboard/:admin_id" element={<Dashboard />} /> 
           <Route path="/auth/admin/admin-add-events/:admin_id" element={<AddEvents />} /> 
-          <Route path="/auth/admin/admin-list-events/:admin_id" element={<ListEvents />} />
+          <Route path="/auth/admin/admin-list-events" element={<ListEvents />} />
           <Route path="/auth/admin/admin-update-event/:event_id" element={<UpdateEvent />} />
           <Route path="/auth/admin/admin-update-student-event/:student_id" element={<UpdateStudentEvent />} />
           <Route path="/auth/admin/admin-list-students" element={<ListStudents />} /> 

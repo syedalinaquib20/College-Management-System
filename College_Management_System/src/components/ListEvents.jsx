@@ -16,9 +16,8 @@ const ListEvents = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const admin_id = localStorage.getItem('adminId');
 
-        axios.get(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-list-events/${admin_id}`, {
+        axios.get('https://college-management-system-0t6u.onrender.com/auth/admin/admin-list-events', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
