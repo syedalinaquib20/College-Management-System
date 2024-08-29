@@ -60,8 +60,9 @@ const AddEvents = () => {
 
         // Get the authentication token from localStorage
         const token = localStorage.getItem('token');
+        const admin_id = localStorage.getItem('adminId');
 
-        axios.post('https://college-management-system-0t6u.onrender.com/auth/admin/admin-add-events', formData, {
+        axios.post(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-add-events/${admin_id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', 
                 'Authorization': `Bearer ${token}`
