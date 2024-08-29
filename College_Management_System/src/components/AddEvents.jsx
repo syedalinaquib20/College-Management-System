@@ -12,7 +12,6 @@ const AddEvents = () => {
         max_participants: ''
     });
 
-    const [file, setFile] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [points, setPoints] = useState(0);
@@ -41,30 +40,15 @@ const AddEvents = () => {
         navigate(`/auth/admin/dashboard/${admin_id}`);
     }
 
-    useEffect(() => {
-        console.log("Form values changed", values);
-    }, [values]);
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        
-        const formData = new FormData();
-        formData.append('event_name', values.event_name);
-        formData.append('event_date', values.event_date);
-        formData.append('event_place', values.event_place);
-        formData.append('event_type', values.event_type);
-        formData.append('max_participants', values.max_participants);
-        if (file) {
-            formData.append('event_picture', file);
-        }
 
         // Get the authentication token from localStorage
         const token = localStorage.getItem('token');
         const admin_id = localStorage.getItem('adminId');
 
-        axios.post(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-add-events/${admin_id}`, formData, {
+        axios.post(`https://college-management-system-0t6u.onrender.com/auth/admin/admin-add-events/${admin_id}`, values, {
             headers: {
-                'Content-Type': 'multipart/form-data', 
                 'Authorization': `Bearer ${token}`
             }
         })
@@ -77,7 +61,7 @@ const AddEvents = () => {
             }
             setErrorMessage('');
             setTimeout(() => {
-                navigate('/auth/admin/dashboard/:id');
+                navigate(`/auth/admin/dashboard/${admin_id}`);
             }, 2000)
         })
         .catch(err => {
@@ -89,8 +73,8 @@ const AddEvents = () => {
                 setErrorMessage('An unexpected error occurred');
             }
             setTimeout(() => {
-                navigate('/auth/admin/dashboard/:id');
-            }, 20000)
+                navigate(`/auth/admin/dashboard/${admin_id}`);
+            }, 2000)
         })
     }
 
@@ -171,14 +155,6 @@ const AddEvents = () => {
                                 type="number"
                                 placeholder="Maximum Participants"
                                 required
-                            />
-                        </div>
-                        <div className="mt-3 flex justify-center">
-                            <input 
-                                onChange={(e) => setFile(e.target.files[0])} 
-                                className="shadow appearance-none border rounded md:w-3/4 mx-auto mt-2 py-4 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
-                                id="event_picture"
-                                type="file"
                             />
                         </div>
                         <div className="absolute top--2 right-90 text-white rounded p-2">
