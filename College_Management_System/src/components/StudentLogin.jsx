@@ -23,15 +23,15 @@ const StudentLogin = () => {
                 localStorage.setItem("Valid", true) 
                 localStorage.setItem("StudentName", result.data.student_name);
                 localStorage.setItem("studentId", result.data.student_id);
-                localStorage.setItem("token", result.data.token);            
+                localStorage.setItem("token", result.data.token);          
+                setErrorMessage('');
+                setTimeout(() => {
+                    const student_id = localStorage.getItem('studentId');
+                    navigate(`/auth/student/dashboard-student/${student_id}`);
+                }, 2000);
             } else {
                 setSuccessMessage("Event added successfully!");
             }
-            setErrorMessage('');
-            setTimeout(() => {
-                const student_id = localStorage.getItem('studentId');
-                navigate(`/auth/student/dashboard-student/${student_id}`);
-            }, 2000)
          })
          .catch(err => {
             console.error(err);
@@ -41,9 +41,6 @@ const StudentLogin = () => {
             } else {
                 setErrorMessage('An unexpected error occurred');
             }
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000)
         })
     }
 

@@ -24,15 +24,15 @@ const AdminLogin = () => {
                     localStorage.setItem("AdminName", result.data.admin_name);
                     localStorage.setItem("adminId", result.data.admin_id);
                     localStorage.setItem("token", result.data.token);
+                    setErrorMessage('');
+                    setTimeout(() => {
+                        const admin_id = localStorage.getItem('adminId');
+                        navigate(`/auth/admin/dashboard/${admin_id}`);
+                    }, 2000)
                 } else {
                     setSuccessMessage("Event added successfully!"); 
                 }
-                setErrorMessage('');
-                setTimeout(() => {
-                    const admin_id = localStorage.getItem('adminId');
-                    navigate(`/auth/admin/dashboard/${admin_id}`);
-                }, 2000)
-                })
+            })
             .catch(err => {
                 console.error(err);
                 setSuccessMessage('');
@@ -41,9 +41,6 @@ const AdminLogin = () => {
                 } else {
                     setErrorMessage('An unexpected error occurred');
                 }
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000)
             })
         };
 
